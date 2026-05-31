@@ -10,6 +10,7 @@ from numpy.testing import assert_allclose
 from numpy.testing import assert_array_less
 from numpy.testing import assert_equal
 from numpy.testing import assert_raises
+from scipy.sparse import csr_matrix
 from scipy.stats import rankdata
 from sklearn.base import clone
 from sklearn.metrics import roc_auc_score
@@ -60,6 +61,16 @@ class TestLOF(unittest.TestCase):
 
         # check performance
         assert (roc_auc_score(self.y_test, pred_scores) >= self.roc_floor)
+
+    def test_sparse_prediction_scores(self):
+        sparse_train = csr_matrix(self.X_train)
+        sparse_test = csr_matrix(self.X_test)
+        clf = LOF(contamination=self.contamination)
+        clf.fit(sparse_train)
+
+        pred_scores = clf.decision_function(sparse_test)
+
+        assert_equal(pred_scores.shape[0], self.X_test.shape[0])
 
     def test_prediction_labels(self):
         pred_labels = self.clf.predict(self.X_test)

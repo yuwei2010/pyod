@@ -173,8 +173,10 @@ class TestIForest(unittest.TestCase):
         When a pandas DataFrame is passed to fit/predict, no warning about
         feature names should be raised by the underlying sklearn estimator.
         """
-        import pandas as pd
+        import pytest
         import warnings
+
+        pd = pytest.importorskip("pandas")
 
         df_train = pd.DataFrame(self.X_train, columns=['f1', 'f2'])
         df_test = pd.DataFrame(self.X_test, columns=['f1', 'f2'])
