@@ -82,7 +82,7 @@ class ADEngine:
             Input data.
         data_type : str or None
             Explicit override. One of 'tabular', 'text', 'image',
-            'time_series', 'multimodal', 'graph'.
+            'audio', 'time_series', 'multimodal', 'graph'.
 
         Returns
         -------
@@ -98,6 +98,8 @@ class ADEngine:
         if detected_type == 'text':
             profile['n_samples'] = len(X)
         elif detected_type == 'image':
+            profile['n_samples'] = len(X)
+        elif detected_type == 'audio':
             profile['n_samples'] = len(X)
         elif detected_type == 'multimodal':
             first_key = next(iter(X))
@@ -153,6 +155,8 @@ class ADEngine:
             if all(isinstance(x, str) for x in sample):
                 if self._looks_like_image_paths(sample[:5]):
                     return 'image'
+                if self._looks_like_audio_paths(sample[:5]):
+                    return 'audio'
                 return 'text'
         return 'tabular'
 
@@ -164,6 +168,17 @@ class ADEngine:
         for s in samples:
             ext = os.path.splitext(s)[1].lower()
             if ext not in image_exts:
+                return False
+        return True
+
+    @staticmethod
+    def _looks_like_audio_paths(samples: list[str]) -> bool:
+        """Check if string samples look like audio file paths."""
+        audio_exts = {'.wav', '.flac', '.mp3', '.ogg', '.m4a',
+                      '.aac', '.wma', '.aiff', '.aif'}
+        for s in samples:
+            ext = os.path.splitext(s)[1].lower()
+            if ext not in audio_exts:
                 return False
         return True
 

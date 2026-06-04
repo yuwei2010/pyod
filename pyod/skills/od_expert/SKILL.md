@@ -19,7 +19,7 @@ Fire this skill when:
 
 ## What you have access to
 
-PyOD ships <!-- KB-snapshot count -->60<!-- /KB-snapshot --> detectors across five modalities (43 tabular, 7 time series, 8 graph, 2 text, 2 image, 1 multimodal). Use the `ADEngine` session API to drive the full workflow:
+PyOD ships <!-- KB-snapshot count -->61<!-- /KB-snapshot --> detectors across six modalities (43 tabular, 7 time series, 8 graph, 2 text, 2 image, 1 multimodal, 3 audio). Use the `ADEngine` session API to drive the full workflow:
 
 ```python
 from pyod.utils.ad_engine import ADEngine

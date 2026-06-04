@@ -13,7 +13,7 @@ The two-step pattern (embed first, then run a classical detector) won the NLP-AD
 ## Detectors available in PyOD (KB-derived)
 
 <!-- BEGIN KB-DERIVED: text-image-detector-list -->
-- **EmbeddingOD** (Embedding-Based Outlier Detection) — complexity: time O(n * embedding_cost + detector_cost), space O(n * embedding_dim); best for: Anomaly detection on unstructured data (text, images) via foundation model representations; avoid when: Data is already tabular or a suitable encoder is not available; requires: pyod[torch]; paper: Zhao et al., 2025
+- **EmbeddingOD** (Embedding-Based Outlier Detection) — complexity: time O(n * embedding_cost + detector_cost), space O(n * embedding_dim); best for: Anomaly detection on unstructured data (text, images, audio) via foundation model or handcrafted representations; avoid when: Data is already tabular or a suitable encoder is not available; requires: pyod[torch]; paper: Zhao et al., 2025
 - **MultiModalOD** (Multi-Modal Outlier Detection) — complexity: time O(n * n_modalities * embedding_cost + detector_cost), space O(n * n_modalities * embedding_dim); best for: Anomaly detection on multi-modal data combining text, image, or other modalities; avoid when: Only a single modality is available or data is purely tabular; requires: pyod[torch]; paper: Zhao et al., 2025
 <!-- END KB-DERIVED: text-image-detector-list -->
 

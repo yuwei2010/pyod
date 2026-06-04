@@ -71,7 +71,7 @@ PyOD 3 is the most comprehensive Python library for anomaly detection. Four pill
 ===========================  ========================================================================================
 Pillar                       What it means
 ===========================  ========================================================================================
-Multi-Modal                  60 detectors across **tabular, time series, graph, text, and image** data, one API
+Multi-Modal                  61 detectors across **tabular, time series, graph, text, image, and audio** data, one API
 Full Lifecycle               From raw data to explained anomalies and next-step guidance in a single call
 Agentic                      Ask in plain English, and AI agents run the full detection workflow without OD expertise
 Most Used                    `38+ million downloads <https://pepy.tech/project/pyod>`_; benchmark-backed routing (ADBench, TSB-AD, BOND, NLP-ADBench)
@@ -208,7 +208,7 @@ Benchmarks
 Implemented Algorithms
 ======================
 
-PyOD is organized into two functional groups: **(i) Detection Algorithms**, with dedicated subsections for tabular, time series, and graph data (EmbeddingOD inside the tabular table adds multi-modal support for text and image via foundation model encoders); and **(ii) Utility Functions** for data generation, evaluation, and lifecycle orchestration.
+PyOD is organized into two functional groups: **(i) Detection Algorithms**, with dedicated subsections for tabular, time series, and graph data (EmbeddingOD inside the tabular table adds multi-modal support for text, image, and audio via foundation model or handcrafted encoders); and **(ii) Utility Functions** for data generation, evaluation, and lifecycle orchestration.
 
 **(i-a) Tabular & Multi-Modal Detection Algorithms** :
 
@@ -263,7 +263,7 @@ Neural Networks      DevNet            Deep Anomaly Detection with Deviation Net
 Neural Networks      AE1SVM            Autoencoder-based One-class Support Vector Machine                                                      2019   :class:`pyod.models.ae1svm.AE1SVM`                   :cite:`a-nguyen2019scalable`
 Graph-based          R-Graph           Outlier detection by R-graph                                                                            2017   :class:`pyod.models.rgraph.RGraph`                   :cite:`a-you2017provable`
 Graph-based          LUNAR             LUNAR: Unifying Local Outlier Detection Methods via Graph Neural Networks                               2022   :class:`pyod.models.lunar.LUNAR`                     :cite:`a-goodge2022lunar`
-Embedding-based      EmbeddingOD       Multi-modal anomaly detection via foundation model embeddings (text, image)                             2025   :class:`pyod.models.embedding.EmbeddingOD`           :cite:`a-li2024nlp`
+Embedding-based      EmbeddingOD       Multi-modal anomaly detection via foundation model embeddings (text, image, audio)                      2025   :class:`pyod.models.embedding.EmbeddingOD`           :cite:`a-li2024nlp`
 ===================  ================  ======================================================================================================  =====  ===================================================  ======================================================
 
 

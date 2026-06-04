@@ -42,6 +42,8 @@ _REQUIRES_TO_EXTRA = {
     "xgboost": "xgboost",
     "suod": "suod",
     "combo": "combo",
+    "librosa": "audio",
+    "soundfile": "audio",
 }
 
 

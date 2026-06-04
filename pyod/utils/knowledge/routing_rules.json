@@ -97,6 +97,18 @@
       "evidence": []
     },
     {
+      "id": "audio_default",
+      "conditions": [
+        {"field": "data_type", "op": "eq", "value": "audio"}
+      ],
+      "recommendations": [
+        {"detector": "EmbeddingOD", "params": {}, "preset": "for_audio", "confidence": 0.85},
+        {"detector": "AudioAE", "params": {}, "confidence": 0.7}
+      ],
+      "reason": "Audio data: handcrafted-feature embed-then-detect (EmbeddingOD.for_audio), with a log-mel autoencoder (AudioAE) as a deep alternative",
+      "evidence": []
+    },
+    {
       "id": "time_series_short",
       "conditions": [
         {"field": "data_type", "op": "eq", "value": "time_series"},

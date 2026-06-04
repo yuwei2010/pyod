@@ -1156,7 +1156,7 @@
     "class_path": "pyod.models.embedding.EmbeddingOD",
     "full_name": "Embedding-Based Outlier Detection",
     "status": "shipped",
-    "data_types": ["text", "image"],
+    "data_types": ["text", "image", "audio"],
     "category": "embedding",
     "complexity": {"time": "O(n * embedding_cost + detector_cost)", "space": "O(n * embedding_dim)"},
     "strengths": [
@@ -1169,7 +1169,7 @@
       "Embedding quality depends on the foundation model",
       "Higher memory usage for large embedding dimensions"
     ],
-    "best_for": "Anomaly detection on unstructured data (text, images) via foundation model representations",
+    "best_for": "Anomaly detection on unstructured data (text, images, audio) via foundation model or handcrafted representations",
     "avoid_when": "Data is already tabular or a suitable encoder is not available",
     "benchmark_refs": [],
     "benchmark_rank": {},
@@ -1183,7 +1183,7 @@
     "class_path": "pyod.models.embedding.MultiModalOD",
     "full_name": "Multi-Modal Outlier Detection",
     "status": "shipped",
-    "data_types": ["text", "image", "multimodal"],
+    "data_types": ["text", "image", "audio", "multimodal"],
     "category": "embedding",
     "complexity": {"time": "O(n * n_modalities * embedding_cost + detector_cost)", "space": "O(n * n_modalities * embedding_dim)"},
     "strengths": [
@@ -1205,6 +1205,33 @@
     "preprocessing_mode": "internal",
     "requires": ["torch"],
     "version_added": "2.1.0"
+  },
+  "AudioAE": {
+    "class_path": "pyod.models.audio_ae.AudioAE",
+    "full_name": "Log-Mel Autoencoder for Audio",
+    "status": "shipped",
+    "data_types": ["audio"],
+    "category": "neural",
+    "complexity": {"time": "O(n_frames * autoencoder_cost)", "space": "O(n_frames * n_mels * context)"},
+    "strengths": [
+      "Dedicated deep detector for audio via log-mel reconstruction",
+      "Scores each clip by mean per-window reconstruction error",
+      "Reuses the shared AutoEncoder training loop and preprocessing"
+    ],
+    "weaknesses": [
+      "Requires torch and librosa",
+      "Assumes mostly-normal training audio",
+      "Frame-windowing cost grows with clip length"
+    ],
+    "best_for": "Audio anomaly detection when a dedicated deep reconstruction model is preferred over embed-then-detect",
+    "avoid_when": "Audio is unavailable, or a lightweight handcrafted-feature detector (EmbeddingOD.for_audio) is enough",
+    "benchmark_refs": [],
+    "benchmark_rank": {},
+    "paper": {"id": "dcase_ae", "short": "DCASE 2020 Task 2 baseline (log-mel autoencoder)"},
+    "default_params": {"contamination": 0.1},
+    "preprocessing_mode": "internal",
+    "requires": ["torch", "librosa"],
+    "version_added": "3.6.0"
   },
   "LLMAD": {
     "class_path": "pyod.models.llmad.LLMAD",

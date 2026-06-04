@@ -62,7 +62,7 @@ PyOD 3 is the most comprehensive Python library for anomaly detection. Four pill
 ===========================  ========================================================================================
 Pillar                       What it means
 ===========================  ========================================================================================
-Multi-Modal                  60 detectors across **tabular, time series, graph, text, and image** data, one API
+Multi-Modal                  61 detectors across **tabular, time series, graph, text, image, and audio** data, one API
 Full Lifecycle               From raw data to explained anomalies and next-step guidance in a single call
 Agentic                      ``od-expert`` turns natural-language requests into ADEngine workflows; MCP exposes structured tools for other agents
 Most Used                    38+ million downloads; benchmark-backed routing (ADBench, TSB-AD, BOND, NLP-ADBench)
@@ -253,7 +253,7 @@ Additional Topics
 Implemented Algorithms
 ^^^^^^^^^^^^^^^^^^^^^^
 
-PyOD is organized into two functional groups: **(i) Detection Algorithms**, with dedicated subsections for tabular, time series, and graph data (EmbeddingOD inside the tabular table adds multi-modal support for text and image via foundation model encoders); and **(ii) Utility Functions** for data generation, evaluation, and lifecycle orchestration.
+PyOD is organized into two functional groups: **(i) Detection Algorithms**, with dedicated subsections for tabular, time series, and graph data (EmbeddingOD inside the tabular table adds multi-modal support for text, image, and audio via foundation model or handcrafted encoders); and **(ii) Utility Functions** for data generation, evaluation, and lifecycle orchestration.
 
 **(i-a) Tabular & Multi-Modal Detection Algorithms** :
 
@@ -508,7 +508,7 @@ PyOD is organized into two functional groups: **(i) Detection Algorithms**, with
      - [#Goodge2022Lunar]_
    * - Embedding-based
      - EmbeddingOD
-     - Multi-modal anomaly detection via foundation model embeddings, text and image (`example <https://github.com/yzhao062/pyod/blob/development/examples/embedding_od_example.py>`__)
+     - Multi-modal anomaly detection via foundation model embeddings, text, image, and audio (`example <https://github.com/yzhao062/pyod/blob/development/examples/embedding_od_example.py>`__)
      - 2025
      - [#Li2024NLPADBench]_
 

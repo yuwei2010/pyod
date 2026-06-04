@@ -1,6 +1,6 @@
 # Tabular anomaly detection reference
 
-PyOD's largest modality (43 of 60 buildable detectors). The agent loads this file when the master decision tree (in SKILL.md) routes to tabular.
+PyOD's largest modality (43 of 61 buildable detectors). The agent loads this file when the master decision tree (in SKILL.md) routes to tabular.
 
 ## Decision table by data shape (expert heuristics)
 
