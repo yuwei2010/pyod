@@ -376,6 +376,15 @@ def resolve_encoder(encoder):
         return CallableEncoder(encoder)
 
     if isinstance(encoder, str):
+        # Local filesystem path takes priority over registry so that a
+        # directory whose name collides with a registry alias (e.g. a
+        # folder literally named 'all-MiniLM-L6-v2') is loaded locally
+        # with local_files_only=True rather than resolved as a Hub ID.
+        import os
+        if os.path.exists(encoder):
+            return _create_encoder('sentence_transformer',
+                                   model_name=encoder)
+
         # Check registry
         if encoder in _ENCODER_REGISTRY:
             backend, kwargs = _ENCODER_REGISTRY[encoder]
