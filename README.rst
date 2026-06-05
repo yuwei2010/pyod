@@ -253,7 +253,7 @@ Additional Topics
 Implemented Algorithms
 ^^^^^^^^^^^^^^^^^^^^^^
 
-PyOD is organized into two functional groups: **(i) Detection Algorithms**, with dedicated subsections for tabular, time series, and graph data (EmbeddingOD inside the tabular table adds multi-modal support for text, image, and audio via foundation model or handcrafted encoders); and **(ii) Utility Functions** for data generation, evaluation, and lifecycle orchestration.
+PyOD is organized into two functional groups: **(i) Detection Algorithms**, with dedicated subsections for tabular, time series, graph, and audio data (EmbeddingOD inside the tabular table adds text and image support via foundation model encoders); and **(ii) Utility Functions** for data generation, evaluation, and lifecycle orchestration.
 
 **(i-a) Tabular & Multi-Modal Detection Algorithms** :
 
@@ -643,6 +643,40 @@ Algorithm rankings from `BOND benchmark <https://arxiv.org/abs/2206.10071>`__ [#
      - Structural clustering, no features needed (`scan example <https://github.com/yzhao062/pyod/blob/development/examples/pyg_scan_example.py>`__)
      - 2007
      - [#Xu2007SCAN]_
+
+
+**(i-d) Audio Anomaly Detection** (``pip install pyod[audio]``):
+
+Audio clips use the same ``fit``/``decision_function`` API. Two paths are available: a lightweight embed-then-detect path (``EmbeddingOD.for_audio()`` turns each clip into a 74-dimensional handcrafted acoustic vector and runs any classical detector), and a dedicated deep detector (``AudioAE``, a log-mel reconstruction autoencoder). Inputs are file paths, waveform arrays, or ``(waveform, sample_rate)`` tuples. **Output**: one anomaly score per clip.
+
+**Audio detection in 3 lines** (``pip install pyod[audio]``):
+
+.. code-block:: python
+
+    from pyod.models.embedding import EmbeddingOD
+    clf = EmbeddingOD.for_audio('balanced')        # 74-dim handcrafted features + KNN
+    clf.fit(train_clips)                            # list of file paths or waveform arrays
+    scores = clf.decision_scores_                  # per-clip anomaly scores
+
+.. list-table::
+   :widths: 18 18 45 5 14
+   :header-rows: 1
+
+   * - Type
+     - Abbr
+     - Algorithm
+     - Year
+     - Ref
+   * - Embed then Detect
+     - EmbeddingOD
+     - ``for_audio()``: 74-dim MFCC, chroma, and spectral features with any detector
+     - 2026
+     -
+   * - Deep AE
+     - AudioAE
+     - Log-mel reconstruction autoencoder (DCASE 2020 Task 2 baseline)
+     - 2020
+     -
 
 
 **(ii) Utility Functions**:
