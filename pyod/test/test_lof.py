@@ -176,6 +176,31 @@ class TestLOF(unittest.TestCase):
         # The docstring must declare the same default that __init__ uses.
         self.assertIn("novelty : bool (default=True)", LOF.__doc__)
 
+    def test_dataframe_no_feature_name_warning(self):
+        """Regression test for GitHub issue #540.
+
+        Scoring a pandas DataFrame must not raise the scikit-learn
+        feature-name UserWarning across the predict paths.
+        """
+        import warnings
+
+        import pytest
+
+        pd = pytest.importorskip("pandas")
+
+        cols = ["f%d" % i for i in range(self.X_train.shape[1])]
+        df_train = pd.DataFrame(self.X_train, columns=cols)
+        df_test = pd.DataFrame(self.X_test, columns=cols)
+
+        clf = LOF(contamination=self.contamination)
+        clf.fit(df_train)
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", UserWarning)
+            clf.decision_function(df_test)
+            clf.predict(df_test)
+            clf.predict_proba(df_test)
+
     def tearDown(self):
         pass
 

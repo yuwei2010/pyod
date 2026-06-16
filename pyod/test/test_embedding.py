@@ -533,6 +533,24 @@ class TestAirGappedAndPreinstantiated(unittest.TestCase):
         enc = resolve_encoder(model)
         self.assertIsInstance(enc, SentenceTransformerEncoder)
 
+    def test_resolve_st_instance_no_download(self):
+        """No-download regression guard for the resolver-order bug.
+
+        A SentenceTransformer instance must resolve to
+        SentenceTransformerEncoder and never to CallableEncoder (the
+        instance is callable, so resolution order matters). ``modules=[]``
+        builds an empty model, so this test needs no network or model
+        download, unlike the integration tests above.
+        """
+        from pyod.utils.encoders import CallableEncoder, resolve_encoder
+        from pyod.utils.encoders.sentence_transformer import (
+            SentenceTransformerEncoder)
+
+        model = SentenceTransformer(modules=[])
+        enc = resolve_encoder(model)
+        self.assertIsInstance(enc, SentenceTransformerEncoder)
+        self.assertNotIsInstance(enc, CallableEncoder)
+
 
 if __name__ == '__main__':
     unittest.main()

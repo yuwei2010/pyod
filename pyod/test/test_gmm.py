@@ -133,6 +133,34 @@ class TestGMM(unittest.TestCase):
     def test_model_clone(self):
         clone_clf = clone(self.clf)
 
+    def test_dataframe_no_feature_name_warning(self):
+        """Regression test for GitHub issue #540.
+
+        Scoring a pandas DataFrame must not raise the scikit-learn
+        feature-name UserWarning. ``fit`` strips column names via
+        ``check_array``, so ``decision_function`` (and the predict paths
+        that route through it) must do the same.
+        """
+        import warnings
+
+        import pytest
+
+        pd = pytest.importorskip("pandas")
+
+        cols = ["f%d" % i for i in range(self.X_train.shape[1])]
+        df_train = pd.DataFrame(self.X_train, columns=cols)
+        df_test = pd.DataFrame(self.X_test, columns=cols)
+
+        clf = GMM(n_components=self.n_components,
+                  contamination=self.contamination)
+        clf.fit(df_train)
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", UserWarning)
+            clf.decision_function(df_test)
+            clf.predict(df_test)
+            clf.predict_proba(df_test)
+
     def tearDown(self):
         pass
 
