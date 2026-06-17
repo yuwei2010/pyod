@@ -74,7 +74,7 @@ Pillar                       What it means
 Multi-Modal                  61 detectors across **tabular, time series, graph, text, image, and audio** data, one API
 Full Lifecycle               From raw data to explained anomalies and next-step guidance in a single call
 Agentic                      Ask in plain English, and AI agents run the full detection workflow without OD expertise
-Most Used                    `38+ million downloads <https://pepy.tech/project/pyod>`_; benchmark-backed routing (ADBench, TSB-AD, BOND, NLP-ADBench)
+Most Used                    `46+ million downloads <https://pepy.tech/project/pyod>`_; benchmark-backed routing (ADBench, TSB-AD, BOND, NLP-ADBench)
 ===========================  ========================================================================================
 
 Install
@@ -155,7 +155,7 @@ See the Install block above for setup instructions for all three activation path
 About PyOD
 ^^^^^^^^^^
 
-PyOD, established in 2017, is the longest-running and most widely used Python library for `anomaly detection <https://en.wikipedia.org/wiki/Anomaly_detection>`_. With `38+ million downloads <https://pepy.tech/project/pyod>`_, it serves both academic research and commercial products worldwide.
+PyOD, established in 2017, is the longest-running and most widely used Python library for `anomaly detection <https://en.wikipedia.org/wiki/Anomaly_detection>`_. With `46+ million downloads <https://pepy.tech/project/pyod>`_, it serves both academic research and commercial products worldwide.
 
 V3 extends the library with :class:`~pyod.utils.ad_engine.ADEngine` (lifecycle orchestration) and the ``od-expert`` skill (agentic workflow), while keeping the classic ``fit``/``predict`` API fully backward-compatible. V3 is built on SUOD :cite:`a-zhao2021suod` for fast parallel training and numba JIT for per-model speedups.
 
@@ -208,7 +208,7 @@ Benchmarks
 Implemented Algorithms
 ======================
 
-PyOD is organized into two functional groups: **(i) Detection Algorithms**, with dedicated subsections for tabular, time series, and graph data (EmbeddingOD inside the tabular table adds multi-modal support for text, image, and audio via foundation model or handcrafted encoders); and **(ii) Utility Functions** for data generation, evaluation, and lifecycle orchestration.
+PyOD is organized into two functional groups: **(i) Detection Algorithms**, with dedicated subsections for tabular, time series, graph, and audio data (EmbeddingOD inside the tabular table adds text and image support via foundation model encoders); and **(ii) Utility Functions** for data generation, evaluation, and lifecycle orchestration.
 
 **(i-a) Tabular & Multi-Modal Detection Algorithms** :
 
@@ -374,6 +374,43 @@ Algorithm rankings from `BOND benchmark <https://arxiv.org/abs/2206.10071>`_ :ci
      - :cite:`a-xu2007scan`
 
 
+**(i-d) Audio Anomaly Detection** (``pip install pyod[audio]``):
+
+Audio clips use the same ``fit``/``decision_function`` API. Two paths are available: a lightweight embed-then-detect path (``EmbeddingOD.for_audio()`` turns each clip into a 74-dimensional handcrafted acoustic vector and runs any classical detector), and a dedicated deep detector (``AudioAE``, a log-mel reconstruction autoencoder). Inputs are file paths, waveform arrays, or ``(waveform, sample_rate)`` tuples. **Output**: one anomaly score per clip.
+
+**Audio detection in 3 lines** (``pip install pyod[audio]``):
+
+.. code-block:: python
+
+    from pyod.models.embedding import EmbeddingOD
+    clf = EmbeddingOD.for_audio('balanced')        # 74-dim handcrafted features + KNN
+    clf.fit(train_clips)                            # list of file paths or waveform arrays
+    scores = clf.decision_scores_                  # per-clip anomaly scores
+
+.. list-table::
+   :widths: 18 18 45 5 25 10
+   :header-rows: 1
+
+   * - Type
+     - Abbr
+     - Algorithm
+     - Year
+     - Class
+     - Ref
+   * - Embed then Detect
+     - EmbeddingOD
+     - ``for_audio()``: 74-dim MFCC, chroma, and spectral features with any detector
+     - 2026
+     - :class:`pyod.models.embedding.EmbeddingOD`
+     -
+   * - Deep AE
+     - AudioAE
+     - Log-mel reconstruction autoencoder (DCASE 2020 Task 2 baseline)
+     - 2020
+     - :class:`pyod.models.audio_ae.AudioAE`
+     -
+
+
 **(ii) Utility Functions**:
 
 ===================  ===============================================  =====================================================================================================================================================
@@ -447,6 +484,7 @@ Key Attributes of a fitted model:
    pyod.models.timeseries
    pyod.models.graph
    pyod.models.embedding
+   pyod.models.audio
    pyod.ad_engine
    pyod.utils
 

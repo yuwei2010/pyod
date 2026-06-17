@@ -167,6 +167,29 @@ class TestIForest(unittest.TestCase):
         feature_importances = self.clf.feature_importances_
         assert (len(feature_importances) == 2)
 
+    def test_dataframe_no_feature_name_warning(self):
+        """Regression test for GitHub issue #540.
+
+        When a pandas DataFrame is passed to fit/predict, no warning about
+        feature names should be raised by the underlying sklearn estimator.
+        """
+        import pytest
+        import warnings
+
+        pd = pytest.importorskip("pandas")
+
+        df_train = pd.DataFrame(self.X_train, columns=['f1', 'f2'])
+        df_test = pd.DataFrame(self.X_test, columns=['f1', 'f2'])
+
+        clf = IForest(contamination=self.contamination, random_state=42)
+        clf.fit(df_train)
+
+        with warnings.catch_warnings():
+            warnings.simplefilter("error", UserWarning)
+            clf.decision_function(df_test)
+            clf.predict(df_test)
+            clf.predict_proba(df_test)
+
     def tearDown(self):
         pass
 
